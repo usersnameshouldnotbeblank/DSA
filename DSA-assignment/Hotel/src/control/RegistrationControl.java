@@ -27,7 +27,6 @@ public class RegistrationControl {
     
 
 
-a
 
 
 
@@ -163,7 +162,7 @@ a
     private Member simulateDequeue(ListInterface<Member>waitlist){
         // logic for removing member from queue
         if (!waitlist.isEmpty()){
-            return  waitlist.remove(1); // adt remove
+            return waitlist.remove(1); // adt remove
         }
         return null;
     }    

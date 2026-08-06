@@ -4,13 +4,16 @@
  */
 package entity;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  *
  * @author jlohz
  */
 public class Booking {
+    private static final AtomicInteger bookingIDCounter = new AtomicInteger(1);
 
-    private String bookingID;
+    private int bookingID;
     private String bookingDate;
     private String checkInDate;
     private String checkOutDate;
@@ -21,7 +24,21 @@ public class Booking {
     public Booking() {
     }
 
-    public Booking(String bookingID, String bookingDate,
+    // partial constructor
+    public Booking(String bookingDate,
+                   String checkInDate, String checkOutDate,
+                   Member member, Room room) {
+
+        this.bookingID = bookingIDCounter.getAndIncrement();
+        this.bookingDate = bookingDate;
+        this.checkInDate = checkInDate;
+        this.checkOutDate = checkOutDate;
+        this.member = member;
+        this.room = room;
+    }
+
+    // full constructor for Booking class
+    public Booking(int bookingID, String bookingDate,
                    String checkInDate, String checkOutDate,
                    Member member, Room room) {
 
@@ -33,11 +50,11 @@ public class Booking {
         this.room = room;
     }
 
-    public String getBookingID() {
+    public int getBookingID() {
         return bookingID;
     }
 
-    public void setBookingID(String bookingID) {
+    public void setBookingID(int bookingID) {
         this.bookingID = bookingID;
     }
 
