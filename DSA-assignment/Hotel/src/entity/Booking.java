@@ -4,6 +4,8 @@
  */
 package entity;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -11,12 +13,24 @@ import java.util.concurrent.atomic.AtomicInteger;
  * @author jlohz
  */
 public class Booking {
+
+    public enum BookingStatus {
+        PENDING,
+        CONFIRMED,
+        CHECKED_IN,
+        CHECKED_OUT,
+        CANCELLED,
+        COMPLETED
+    }
+
     private static final AtomicInteger bookingIDCounter = new AtomicInteger(1);
 
     private int bookingID;
-    private String bookingDate;
-    private String checkInDate;
-    private String checkOutDate;
+    private LocalDate bookingDate;
+    private LocalDate checkInDate;
+    private LocalDate checkOutDate;
+    private LocalDateTime registrationTime;
+    private BookingStatus bookingStatus;
 
     private Member member;
     private Room room;
@@ -25,27 +39,31 @@ public class Booking {
     }
 
     // partial constructor
-    public Booking(String bookingDate,
-                   String checkInDate, String checkOutDate,
-                   Member member, Room room) {
+    public Booking(LocalDate bookingDate, LocalDate checkInDate,
+                    LocalDate checkOutDate, LocalDateTime registrationTime,
+                    BookingStatus bookingStatus, Member member, Room room) {
 
         this.bookingID = bookingIDCounter.getAndIncrement();
         this.bookingDate = bookingDate;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
+        this.registrationTime = registrationTime;
+        this.bookingStatus = bookingStatus;
         this.member = member;
         this.room = room;
     }
 
     // full constructor for Booking class
-    public Booking(int bookingID, String bookingDate,
-                   String checkInDate, String checkOutDate,
-                   Member member, Room room) {
+    public Booking(int bookingID, LocalDate bookingDate,
+                   LocalDate checkInDate, LocalDate checkOutDate,
+                   LocalDateTime registrationTime, BookingStatus bookingStatus, Member member, Room room) {
 
         this.bookingID = bookingID;
         this.bookingDate = bookingDate;
         this.checkInDate = checkInDate;
         this.checkOutDate = checkOutDate;
+        this.registrationTime = registrationTime;
+        this.bookingStatus = bookingStatus;
         this.member = member;
         this.room = room;
     }
@@ -58,28 +76,44 @@ public class Booking {
         this.bookingID = bookingID;
     }
 
-    public String getBookingDate() {
+    public LocalDate getBookingDate() {
         return bookingDate;
     }
 
-    public void setBookingDate(String bookingDate) {
+    public void setBookingDate(LocalDate bookingDate) {
         this.bookingDate = bookingDate;
     }
 
-    public String getCheckInDate() {
+    public LocalDate getCheckInDate() {
         return checkInDate;
     }
 
-    public void setCheckInDate(String checkInDate) {
+    public void setCheckInDate(LocalDate checkInDate) {
         this.checkInDate = checkInDate;
     }
 
-    public String getCheckOutDate() {
+    public LocalDate getCheckOutDate() {
         return checkOutDate;
     }
 
-    public void setCheckOutDate(String checkOutDate) {
+    public void setCheckOutDate(LocalDate checkOutDate) {
         this.checkOutDate = checkOutDate;
+    }
+
+    public LocalDateTime getRegistrationTime() {
+        return registrationTime;
+    }
+
+    public void setRegistrationTime(LocalDateTime registrationTime) {
+        this.registrationTime = registrationTime;
+    }
+
+    public BookingStatus getBookingStatus() {
+        return bookingStatus;
+    }
+
+    public void setBookingStatus(BookingStatus bookingStatus) {
+        this.bookingStatus = bookingStatus;
     }
 
     public Member getMember() {
@@ -105,6 +139,8 @@ public class Booking {
                 ", bookingDate='" + bookingDate + '\'' +
                 ", checkInDate='" + checkInDate + '\'' +
                 ", checkOutDate='" + checkOutDate + '\'' +
+                ", registrationTime='" + registrationTime + '\'' +
+                ", bookingStatus=" + bookingStatus +
                 ", member=" + member +
                 ", room=" + room +
                 '}';
