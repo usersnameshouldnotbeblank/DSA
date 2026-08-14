@@ -4,6 +4,9 @@
  */
 package adt;
 
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 public class DoublyLinkedList<T> implements ListInterface<T> {
 
     private Node firstNode;
@@ -303,5 +306,48 @@ public class DoublyLinkedList<T> implements ListInterface<T> {
         }
         return true;
     }
-    
+
+    // ==================== New operations (Loyalty & Reward module contribution) ====================
+
+    @Override
+    public int indexOf(T anEntry) {
+        // returns the 1-based position of the first occurrence of anEntry, -1 if not found
+        int position = 1;
+        Node currentNode = firstNode;
+        while (currentNode != null) {
+            if (currentNode.data.equals(anEntry)) {
+                return position;
+            }
+            currentNode = currentNode.next;
+            position++;
+        }
+        return -1;
+    }
+
+    @Override
+    public Iterator<T> getIterator() {
+        // returns an Iterator that traverses the list from firstNode to lastNode
+        return new DoublyLinkedListIterator();
+    }
+
+    private class DoublyLinkedListIterator implements Iterator<T> {
+
+        private Node nextNode = firstNode;
+
+        @Override
+        public boolean hasNext() {
+            return nextNode != null;
+        }
+
+        @Override
+        public T next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException("No more elements in the list.");
+            }
+            T data = nextNode.data;
+            nextNode = nextNode.next;
+            return data;
+        }
+    }
+
 }
