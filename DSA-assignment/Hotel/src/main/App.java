@@ -8,19 +8,16 @@ import entity.Room;
 import DAO.RegistrationDAO;
 import boundary.BookingUI;
 import boundary.RegistrationUI;
+import boundary.LoyaltyUI;
 
 public class App {
-
     // =========================================================
     // Global application state — shared across all modules
     // =========================================================
-
     public static ListInterface<Member> memberList          = new DoublyLinkedList<>(); // all registered members
     public static ListInterface<Room>   roomList            = new DoublyLinkedList<>(); // all hotel rooms
-
     public static ListInterface<Member> checkInWaitlist     = new DoublyLinkedList<>(); // members queued for check-in
     public static ListInterface<Member> checkOutWaitlist    = new DoublyLinkedList<>(); // members queued for check-out
-
     public static ListInterface<Booking> bookingList        = new DoublyLinkedList<>(); // active / upcoming bookings
     public static ListInterface<Booking> bookingHistoryList = new DoublyLinkedList<>(); // completed / cancelled bookings
     public static ListInterface<Booking> bookingRequestsQueue = new DoublyLinkedList<>(); // priority waitlist for rooms
@@ -29,7 +26,6 @@ public class App {
     // Entry point
     // =========================================================
     public static void main(String[] args) {
-
         // --- 1. Load seed data ---
         System.out.println("==========================================");
         System.out.println("   HOTEL MANAGEMENT SYSTEM - STARTING   ");
@@ -40,8 +36,7 @@ public class App {
         // --- 2. Core system loop ---
         java.util.Scanner scanner = new java.util.Scanner(System.in);
         int module = 0;
-
-        while (module != 3) {
+        while (module != 4) {
             System.out.println("\n==========================================");
             System.out.println("   HOTEL MANAGEMENT SYSTEM   ");
             System.out.println("  Time: " + util.VirtualClock.getInstance().toString());
@@ -49,7 +44,8 @@ public class App {
             System.out.println("Select Module:");
             System.out.println("1. Booking Module");
             System.out.println("2. Registration Module  (Check-In / Check-Out)");
-            System.out.println("3. Exit");
+            System.out.println("3. Loyalty and Rewards Service Module");
+            System.out.println("4. Exit");
             System.out.print("Choice: ");
 
             try {
@@ -66,13 +62,17 @@ public class App {
                     new RegistrationUI().displayRegistrationMenu();
                     break;
                 case 3:
+                    // wired to the shared memberList so points/tier updates
+                    // stay in sync with the Registration module
+                    new LoyaltyUI(memberList).displayMenu();
+                    break;
+                case 4:
                     System.out.println("Exiting system. Goodbye!");
                     break;
                 default:
-                    System.out.println("Invalid choice. Please enter 1, 2, or 3.");
+                    System.out.println("Invalid choice. Please enter 1, 2, 3, or 4.");
             }
         }
-
         scanner.close();
     }
 }

@@ -9,8 +9,18 @@ import entity.Member.LoyaltyTier;
 
 public class LoyaltyUI {
 
-    private LoyaltyControl loyaltyControl = new LoyaltyControl();
+    private LoyaltyControl loyaltyControl;
     private Scanner scanner = new Scanner(System.in);
+
+    public LoyaltyUI() {
+        // standalone mode: uses this module's own hardcoded member data
+        loyaltyControl = new LoyaltyControl();
+    }
+
+    public LoyaltyUI(ListInterface<Member> sharedMemberList) {
+        // integrated mode: wired to the application-wide shared memberList
+        loyaltyControl = new LoyaltyControl(sharedMemberList);
+    }
 
     public void displayMenu() {
         int choice;

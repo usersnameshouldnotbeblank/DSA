@@ -42,7 +42,19 @@ public class LoyaltyControl {
     public static final int DEFAULT_EXPIRY_ALERT_DAYS = 30;
 
     public LoyaltyControl() {
+        // standalone mode: uses this module's own hardcoded member data
+        // (only used when running/testing the Loyalty module in isolation)
         memberList = loyaltyDAO.initializeMemberData();
+        rewardCatalog = loyaltyDAO.initializeRewardCatalog();
+        transactionList = loyaltyDAO.initializeTransactionData();
+    }
+
+    public LoyaltyControl(ListInterface<Member> sharedMemberList) {
+        // integrated mode: uses the application-wide shared memberList
+        // (e.g. App.memberList) so points/tier changes are visible to
+        // every other module, and new members registered elsewhere are
+        // visible here too
+        memberList = sharedMemberList;
         rewardCatalog = loyaltyDAO.initializeRewardCatalog();
         transactionList = loyaltyDAO.initializeTransactionData();
     }
