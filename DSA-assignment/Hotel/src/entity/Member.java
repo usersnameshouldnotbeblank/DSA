@@ -23,9 +23,9 @@ public class Member {
     private int memberID;
     private String memberName;
     private String phoneNumber;
-    private String email;
-    private LoyaltyTier loyaltyTier;
-    private int loyaltyPoints;
+    private String email; 
+    private LoyaltyTier loyaltyTier; // vip status thing
+    private int loyaltyPoints;      // points accumulated for loyalty program 
 
     public Member() {
     }

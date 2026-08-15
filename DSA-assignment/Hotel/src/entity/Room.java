@@ -14,7 +14,8 @@ public class Room {
     private static final AtomicInteger roomIDCounter = new AtomicInteger(1);
 
     private int roomID;
-    private String roomType;
+    private String roomNumber;
+    private RoomType roomType;
     private RoomStatus roomStatus;
 
     // added enum class for room status
@@ -26,19 +27,37 @@ public class Room {
         Occupied,
     }
 
+    public enum RoomType {
+        SINGLE(100.0), // room types (room rate)
+        DOUBLE(150.0),
+        SUITE(300.0);
+
+        private final double baseRate;
+
+        RoomType(double baseRate) {
+            this.baseRate = baseRate;
+        }
+
+        public double getBaseRate() {
+            return baseRate;
+        }
+    }
+
     public Room() {
     }
 
     // new constructor for default room status
-    public Room(String roomType) {
+    public Room(String roomNumber, RoomType roomType) {
         this.roomID = roomIDCounter.getAndIncrement();
+        this.roomNumber = roomNumber;
         this.roomType = roomType;
         this.roomStatus = RoomStatus.Ready_for_Check_In; // Default status
     }
 
     // modified full constructor from string to enum for room status, and counter for ID
-    public Room(String roomType, RoomStatus roomStatus) {
+    public Room(String roomNumber, RoomType roomType, RoomStatus roomStatus) {
         this.roomID = roomIDCounter.getAndIncrement();
+        this.roomNumber = roomNumber;
         this.roomType = roomType;
         this.roomStatus = roomStatus;
     }
@@ -53,11 +72,19 @@ public class Room {
         this.roomID = roomID;
     }
 
-    public String getRoomType() {
+    public String getRoomNumber() {
+        return roomNumber;
+    }
+
+    public void setRoomNumber(String roomNumber) {
+        this.roomNumber = roomNumber;
+    }
+
+    public RoomType getRoomType() {
         return roomType;
     }
 
-    public void setRoomType(String roomType) {
+    public void setRoomType(RoomType roomType) {
         this.roomType = roomType;
     }
 
@@ -73,6 +100,7 @@ public class Room {
     public String toString() {
         return "Room{" +
                 "roomID='" + roomID + '\'' +
+                ", roomNumber='" + roomNumber + '\'' +
                 ", roomType='" + roomType + '\'' +
                 ", roomStatus='" + roomStatus + '\'' +
                 '}';
